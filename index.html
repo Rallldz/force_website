@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORCE — Forum Aspirasi Warga Sekolah</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+
+  <!-- CSS dipisah -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════════════════ NAVBAR ════════════════════ -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="logo-wrap" onclick="showPage('beranda')">
+      <div class="logo-mark">
+        <img src="../gambar/logo mpk.png" alt="Logo MPK" style="width: 50px; height: 50px; object-fit: contain;">
+      </div>
+      <div>
+        <div class="logo-name">FORCE</div>
+        <div class="logo-tagline">Forum Class Eksekutif</div>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <button class="nav-btn active" id="nav-beranda" onclick="showPage('beranda')">
+        <i class="ti ti-home"></i> Beranda
+      </button>
+      <button class="nav-btn" id="nav-lapor" onclick="showPage('lapor')">
+        <i class="ti ti-send"></i> Lapor
+      </button>
+      <button class="nav-btn" id="nav-status" onclick="showPage('status')">
+        <i class="ti ti-radar"></i> Cek Status
+      </button>
+    </div>
+
+    <button class="hamburger" onclick="toggleMenu()">
+      <i class="ti ti-menu-2"></i>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-link" onclick="showPage('beranda');toggleMenu()">
+      <i class="ti ti-home"></i> Beranda
+    </button>
+    <button class="mobile-link" onclick="showPage('lapor');toggleMenu()">
+      <i class="ti ti-send"></i> Buat Laporan
+    </button>
+    <button class="mobile-link" onclick="showPage('status');toggleMenu()">
+      <i class="ti ti-radar"></i> Cek Status
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<div id="hero-wrap">
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span> Platform aspirasi aktif
+    </div>
+    <h1 class="hero-title">
+      Waves of Voices:<br>Creating Ripples of Change<span>Through Unity and Expression</span>
+    </h1>
+    <p class="hero-sub">
+      Small Voices, Big Waves.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('lapor')">
+        <i class="ti ti-edit"></i> Buat laporan
+      </button>
+      <button class="btn-secondary" onclick="showPage('status')">
+        <i class="ti ti-radar"></i> Cek status
+      </button>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num" style="color:#60a5fa" id="s-total">0</div>
+        <div class="stat-label">Total laporan</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:#fbbf24" id="s-diproses">0</div>
+        <div class="stat-label">Diproses</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:#4ade80" id="s-selesai">0</div>
+        <div class="stat-label">Selesai</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:#f87171" id="s-menunggu">0</div>
+        <div class="stat-label">Menunggu</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ HALAMAN BERANDA ════════════════════ -->
+<div class="page active" id="pg-beranda">
+  <div class="main">
+
+    <div class="sec-label">Kategori aduan</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="showPage('lapor','Kesiswaan')">
+        <div class="cat-icon ci-blue"><i class="ti ti-users"></i></div>
+        <div class="cat-name">Kesiswaan</div>
+        <div class="cat-desc">Ekskul, disiplin, kegiatan siswa, organisasi</div>
+        <span class="cat-count" id="count-kesiswaan">0 laporan</span>
+      </div>
+      <div class="cat-card" onclick="showPage('lapor','Sarpras')">
+        <div class="cat-icon ci-green"><i class="ti ti-file-text"></i></div>
+        <div class="cat-name">Sarpras</div>
+        <div class="cat-desc">Surat, dokumen, pelayanan TU, fasilitas</div>
+        <span class="cat-count" id="count-sarpras">0 laporan</span>
+      </div>
+      <div class="cat-card" onclick="showPage('lapor','Kurikulum')">
+        <div class="cat-icon ci-amber"><i class="ti ti-book"></i></div>
+        <div class="cat-name">Kurikulum</div>
+        <div class="cat-desc">Pembelajaran, guru, jadwal, program studi</div>
+        <span class="cat-count" id="count-kurikulum">0 laporan</span>
+      </div>
+    </div>
+
+    <div class="sec-label">Laporan terbaru</div>
+    <div class="report-list" id="list-laporan"></div>
+
+    <div class="info-strip">
+      <div class="info-strip-item">
+        <i class="ti ti-brand-whatsapp"></i>
+        Notifikasi langsung ke WA penanggung jawab
+      </div>
+      <div class="info-strip-item">
+        <i class="ti ti-mail"></i>
+        Konfirmasi email otomatis ke pelapor
+      </div>
+      <div class="info-strip-item">
+        <i class="ti ti-shield-check"></i>
+        Laporan aman & tersimpan dengan backup
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════ HALAMAN LAPOR ════════════════════ -->
+<div class="page" id="pg-lapor">
+  <div class="main">
+
+    <div class="page-header">
+      <div class="page-title"><i class="ti ti-send"></i> Buat Laporan</div>
+      <div class="page-sub">Sampaikan aduan, kritik, atau saranmu dengan lengkap agar mudah ditindaklanjuti.</div>
+    </div>
+
+    <div class="notice-box">
+      <i class="ti ti-bell" style="color:#1d4ed8"></i>
+      <div>
+        Setelah mengirim, kamu mendapat <strong>nomor tiket unik</strong> untuk memantau status.
+        Laporan langsung dikirim via <strong>WhatsApp & Email</strong> ke penanggung jawab terkait.
+      </div>
+    </div>
+
+    <!-- INFORMASI PELAPOR -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon ci-blue"><i class="ti ti-user"></i></div>
+        <div class="fch-title">Informasi pelapor</div>
+      </div>
+      <div class="form-body">
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl">Nama lengkap <span class="req">*</span></label>
+            <input class="fi" id="f-nama" type="text" placeholder="Nama kamu">
+          </div>
+          <div class="fg">
+            <label class="fl">Kelas / jabatan <span class="req">*</span></label>
+            <input class="fi" id="f-kelas" type="text" placeholder="XI IPA 2 / Guru / Staf">
+          </div>
+        </div>
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl">No. WhatsApp</label>
+            <input class="fi" id="f-wa" type="tel" placeholder="08xxxxxxxxxx">
+            <div class="fi-hint">Untuk menerima update status via WA</div>
+          </div>
+          <div class="fg">
+            <label class="fl">Email</label>
+            <input class="fi" id="f-email" type="email" placeholder="@abbs.alabidin.sch.id">
+          </div>
+        </div>
+        <div class="fg">
+          <label class="anon-row">
+            <input type="checkbox" id="f-anonim">
+            <span class="anon-label">
+              <i class="ti ti-eye-off"></i>
+              Kirim sebagai anonim — identitasku tidak ditampilkan ke publik
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL LAPORAN -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="fch-icon ci-amber"><i class="ti ti-clipboard-text"></i></div>
+        <div class="fch-title">Detail laporan</div>
+      </div>
+      <div class="form-body">
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl">Kategori <span class="req">*</span></label>
+            <select class="fs" id="f-kategori">
+              <option value="">Pilih kategori</option>
+              <option>Kesiswaan</option>
+              <option>Sarpras</option>
+              <option>Kurikulum</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="fl">Jenis laporan <span class="req">*</span></label>
+            <select class="fs" id="f-jenis">
+              <option value="">Pilih jenis</option>
+              <option>Aduan / Keluhan</option>
+              <option>Kritik</option>
+              <option>Saran / Aspirasi</option>
+              <option>Permohonan</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fl">Judul laporan <span class="req">*</span></label>
+          <input class="fi" id="f-judul" type="text"
+            placeholder="Ringkasan singkat laporan kamu" maxlength="150">
+        </div>
+        <div class="fg">
+          <label class="fl">Uraian lengkap <span class="req">*</span></label>
+          <textarea class="ft" id="f-uraian"
+            placeholder="Jelaskan secara detail permasalahan, kritik, atau saranmu. Sertakan waktu, lokasi, dan pihak yang terlibat jika ada..."></textarea>
+          <div class="fi-hint">Semakin detail, semakin mudah ditindaklanjuti</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="btn-kirim" onclick="kirimLaporan()">
+      <i class="ti ti-send"></i> Kirim laporan
+    </button>
+
+  </div>
+</div>
+
+<!-- ════════════════════ HALAMAN STATUS ════════════════════ -->
+<div class="page" id="pg-status">
+  <div class="main">
+
+    <div class="page-header">
+      <div class="page-title"><i class="ti ti-radar"></i> Cek Status Laporan</div>
+      <div class="page-sub">Pantau perkembangan laporanmu secara real-time menggunakan nomor tiket.</div>
+    </div>
+
+    <div class="lookup-card">
+      <label class="fl" style="font-size:13px;margin-bottom:8px">Masukkan nomor tiket</label>
+      <div class="lookup-row">
+        <input class="lookup-input" id="tiket-input" type="text"
+          placeholder="Contoh: FC-2024-001AB"
+          oninput="this.value=this.value.toUpperCase()">
+        <button class="lookup-btn" onclick="cekStatus()">
+          <i class="ti ti-search"></i> Cari
+        </button>
+      </div>
+      <div class="fi-hint" style="margin-top:7px">
+        Nomor tiket dikirimkan saat kamu mengirim laporan
+      </div>
+    </div>
+
+    <div id="hasil-status"></div>
+
+    <div class="notice-box">
+      <i class="ti ti-device-mobile" style="color:#1d4ed8"></i>
+      <div>
+        Update status laporan juga dikirim otomatis ke
+        <strong>WhatsApp</strong> atau <strong>email</strong>
+        yang kamu daftarkan saat melapor.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════ MODAL SUKSES ════════════════════ -->
+<div class="modal-overlay" id="modal-sukses">
+  <div class="modal-box">
+    <div class="modal-icon"><i class="ti ti-circle-check"></i></div>
+    <div class="modal-title">Laporan berhasil dikirim!</div>
+    <div class="modal-sub">Simpan nomor tiket ini untuk memantau status laporanmu</div>
+    <div class="ticket-box" id="modal-tiket">FC-2024-001</div>
+    <div class="modal-note">Notifikasi sudah dikirim ke penanggung jawab via WA & Email</div>
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="salinTiket()">
+        <i class="ti ti-copy"></i> Salin tiket
+      </button>
+      <button class="btn-outline" onclick="lihatStatus()">
+        <i class="ti ti-radar"></i> Cek status
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">FORCE</div>
+      <div class="footer-sub">Forum Class Eksekutif</div>
+    </div>
+    <div class="footer-copy">© 25/26 FORCE. Semua hak dilindungi.</div>
+    <div class="footer-links">
+      <span>Panduan</span>
+      <span>Tentang</span>
+      <span>Kontak</span>
+    </div>
+  </div>
+</footer>
+
+<!-- JS dipisah -->
+<script src="script.js"></script>
+
+</body>
+</html>
